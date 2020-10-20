@@ -2,6 +2,7 @@ package br.com.zup.controller;
 
 import br.com.zup.controller.dtos.CadastrarPaisRequest;
 import br.com.zup.entity.Pais;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,9 +23,9 @@ public class PaisController {
 
     @Transactional
     @PostMapping
-    public String cadastrar(@RequestBody @Valid CadastrarPaisRequest request, UriComponentsBuilder builder){
+    public ResponseEntity<?> cadastrar(@RequestBody @Valid CadastrarPaisRequest request, UriComponentsBuilder builder){
         Pais pais = request.toModel();
         this.manager.persist(pais);
-        return pais.toString();
+        return ResponseEntity.created(builder.path("/paises/{id}").buildAndExpand(pais.getId()).toUri()).build();
     }
 }
