@@ -8,15 +8,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/paises")
 public class PaisController {
 
+    @PersistenceContext
+    private EntityManager manager;
+
+    @Transactional
     @PostMapping
     public String cadastrar(@RequestBody @Valid CadastrarPaisRequest request, UriComponentsBuilder builder){
-        Pais pais = null;
-        return null;
+        Pais pais = request.toModel();
+        this.manager.persist(pais);
+        return pais.toString();
     }
 }
