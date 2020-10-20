@@ -9,9 +9,11 @@ import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Pais {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotBlank
     private String nome;
 
@@ -34,4 +36,5 @@ public class Pais {
                 ", nome='" + nome + '\'' +
                 '}';
     }
+
 }
