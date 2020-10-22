@@ -6,7 +6,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.lang.annotation.Annotation;
 
-public class NomeUnicoValidator implements ConstraintValidator {
+public class NomeUnicoValidator implements ConstraintValidator<NomeUnico, String> {
     private String campo;
     private Class<?> klass;
 
@@ -18,6 +18,7 @@ public class NomeUnicoValidator implements ConstraintValidator {
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-
+        return true;
     }
+
 }
