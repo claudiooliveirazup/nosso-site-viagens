@@ -1,5 +1,11 @@
 package br.com.zup.controller.dtos;
 
+import br.com.zup.entity.Companhia;
+import br.com.zup.entity.Pais;
+import org.springframework.util.Assert;
+
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -30,5 +36,16 @@ public class NovaCompanhiaRequest {
 
 	public void setIdPais(Long idPais) {
 		this.idPais = idPais;
-	}	
+	}
+
+	@Transactional
+	public Companhia toModel(@NotNull EntityManager entityManager){
+
+		Pais pais = entityManager.find(Pais.class, this.idPais);
+		Assert.notNull(pais, "Pais não encontrado.");
+
+		return new Companhia(this.nome, pais);
+	}
+
+
 }

@@ -1,6 +1,7 @@
 package br.com.zup.controller;
 
 import br.com.zup.controller.dtos.NovaCompanhiaRequest;
+import br.com.zup.entity.Companhia;
 import br.com.zup.entity.Pais;
 import br.com.zup.validation.NomeCompanhiaValidator;
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -28,19 +30,18 @@ public class CompanhiaController {
 	@Autowired
 	private NomeCompanhiaValidator nomeCompanhiaValidator;
 
-	@InitBinder
-	public void init(WebDataBinder binder){
-		binder.addValidators(nomeCompanhiaValidator);
-	}
+//	@InitBinder
+//	public void init(WebDataBinder binder){
+//		binder.addValidators(nomeCompanhiaValidator);
+//	}
 
 	@PostMapping
+	@Transactional
 	public ResponseEntity<?> cadastrarCompanhia(@Valid @RequestBody NovaCompanhiaRequest request) {
-		Optional<Pais> pais = Optional.ofNullable(this.entityManager.find(Pais.class, request.getIdPais()));
-		if (pais.isEmpty()) {
-			log.error("Pais=[{}] não encontrado", request.getIdPais());
-			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(String.format("Pais=[%s] não existe", request.getIdPais()));
-		}
 
+		Companhia companhia = request.toModel(entityManager);
+
+		entityManager.persist(companhia);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 
