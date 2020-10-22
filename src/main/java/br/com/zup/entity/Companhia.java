@@ -3,6 +3,7 @@ package br.com.zup.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.Instant;
 
 @Entity
 public class Companhia {
@@ -16,6 +17,7 @@ public class Companhia {
     @ManyToOne
     @NotNull
     private Pais pais;
+    private Instant instante = Instant.now();
 
     @Deprecated
     public Companhia(){
@@ -33,6 +35,15 @@ public class Companhia {
                 "id=" + id +
                 ", nome='" + nome + '\'' +
                 ", pais=" + pais +
+                ", instante=" + instante +
                 '}';
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

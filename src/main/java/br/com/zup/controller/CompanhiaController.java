@@ -4,6 +4,7 @@ import br.com.zup.controller.dtos.NovaCompanhiaRequest;
 import br.com.zup.entity.Companhia;
 import br.com.zup.entity.Pais;
 import br.com.zup.validation.NomeCompanhiaValidator;
+import br.com.zup.validation.NomeUnicoValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,22 +28,13 @@ public class CompanhiaController {
 
 	private Logger log = LoggerFactory.getLogger(CompanhiaController.class);
 
-	@Autowired
-	private NomeCompanhiaValidator nomeCompanhiaValidator;
-
-//	@InitBinder
-//	public void init(WebDataBinder binder){
-//		binder.addValidators(nomeCompanhiaValidator);
-//	}
-
 	@PostMapping
 	@Transactional
-	public ResponseEntity<?> cadastrarCompanhia(@Valid @RequestBody NovaCompanhiaRequest request) {
+	public ResponseEntity<Long> cadastrarCompanhia(@Valid @RequestBody NovaCompanhiaRequest request) {
 
 		Companhia companhia = request.toModel(entityManager);
 
 		entityManager.persist(companhia);
-		return ResponseEntity.status(HttpStatus.CREATED).build();
+		return ResponseEntity.status(HttpStatus.CREATED).body(companhia.getId());
 	}
-
 }

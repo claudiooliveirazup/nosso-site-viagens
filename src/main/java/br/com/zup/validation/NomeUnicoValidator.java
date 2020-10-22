@@ -35,9 +35,6 @@ public class NomeUnicoValidator implements ConstraintValidator<NomeUnico, String
         query.setParameter("valor", value);
 
         List<?> resultado = query.getResultList();
-        Assert.isTrue(resultado.size() >= 1, "");
-
-        return true;
+        return resultado.isEmpty();
     }
-
 }

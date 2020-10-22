@@ -1,5 +1,6 @@
 package br.com.zup.controller.dtos;
 
+import br.com.zup.annotation.NomeUnico;
 import br.com.zup.entity.Companhia;
 import br.com.zup.entity.Pais;
 import org.springframework.util.Assert;
@@ -10,7 +11,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class NovaCompanhiaRequest {
-
+	@NomeUnico(domainClass = Companhia.class, fieldName = "nome")
 	@NotBlank
 	private String nome;
 	
